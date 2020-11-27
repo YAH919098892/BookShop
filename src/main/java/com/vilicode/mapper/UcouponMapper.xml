@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vilicode.mapper.UcouponMapper">
+    <select id="selectOneUcouponByid" resultMap="uCoupon" resultType="com.vilicode.bean.Ucoupon" >
+SELECT user.`u_id`,ucoupon.`u_id`,user.`u_name`,ucoupon.`ucouid`,coupon.`coutype` ,coupon.`coumoney`,coupon.`count`
+FROM USER,ucoupon,coupon WHERE user.`u_id`=#{uid} AND ucoupon.`couid`=coupon.`couid` AND user.`u_id`=ucoupon.`u_id`
+    </select>
+
+    <select id="selectAllUcoupon" resultMap="uCoupon" resultType="com.vilicode.bean.Ucoupon">
+
+SELECT user.`u_id`,ucoupon.`u_id`,user.`u_name`,ucoupon.`ucouid`,coupon.`coutype` ,coupon.`coumoney`,coupon.`count`
+FROM USER,ucoupon,coupon WHERE  ucoupon.`couid`=coupon.`couid` AND user.`u_id`=ucoupon.`u_id`
+    </select>
+
+    <insert id="addUcoupon" parameterType="Map">
+        insert into ucoupon(u_id,couid) value (#{uid},#{couid})
+    </insert>
+
+    <delete id="delectUcouponByid" parameterType="int">
+        delete  from ucoupon where ucouid=#{ucouid};
+    </delete>
+
+
+    <resultMap id="uCoupon" type="com.vilicode.bean.Ucoupon">
+        <result property="ucouid" column="ucouid"/>
+        <association property="user" javaType="com.vilicode.bean.User">
+            <result property="uid" column="u_id"/>
+            <result property="uname" column="u_name"/>
+        </association>
+        <association property="coupon" javaType="com.vilicode.bean.Coupon">
+            <result property="couid" column="couid"/>
+            <result property="coutype" column="coutype"/>
+            <result property="coumoney" column="coumoney"/>
+            <result property="count" column="count"/>
+        </association>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vilicode.mapper.CouponMapper">
+<select id="selectAllCoupon" resultType="Coupon">
+    select * from coupon
+</select>
+    <select id="selectCouponById" resultType="Coupon">
+        select * from coupon where couid=#{couid}
+    </select>
+<!--    <where>-->
+<!--        <if test="uid != null">uid=#{uid}</if>-->
+<!--        <if test="aid != null">and aid=#{aid}</if>-->
+<!--        <if test="username != null">and username=#{username}</if>-->
+<!--        <if test="address != null">and address like "%"#{address}"%"</if>-->
+<!--        <if test="phone != null">and phone=#{phone}</if>-->
+<!--    </where>-->
+    <delete id="delectCouponById" parameterType="int">
+        delete from coupon where couid=#{couid}
+    </delete>
+    <insert id="addCoupon" parameterType="Map">
+        insert into coupon(coutype, coumoney, count) values(#{coutype},#{coumoney},#{count})
+    </insert>
+    <update id="updCoupon" parameterType="Map">
+        update coupon
+        <set>
+            <if test="coutype != null">coutype=#{coutype},</if>
+            <if test="coumoney != null">coumoney=#{coumoney},</if>
+            <if test="count != null">count=#{count}</if>
+        </set>
+        where couid=#{couid}
+    </update>
+</mapper>
